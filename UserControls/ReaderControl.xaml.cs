@@ -1,4 +1,5 @@
 ﻿using MangaReader.Services;
+using MangaReader.Services.Reader;
 using MangaReader.Services.ReaderServices;
 using System.ComponentModel;
 using System.Windows;
@@ -13,13 +14,14 @@ namespace MangaReader.UserControls
 
         private PagesService pagesService;
         private ReaderService readerService;
+        private ScrollerService scrollerService;
 
         public string CurrentPage { get { return pagesService.CurrentPage; } }
         public string NextPage { get { return pagesService.NextPage; } }
 
-        public int CurrentPageTop { get; set; }
+        public int CurrentPageTop { get { return (int) (scrollerService.scrollPercentage * CurrentImage.ActualHeight); } }
 
-        public int NextPageTop { get; set; }
+        public int NextPageTop { get { return CurrentPageTop + (int) CurrentImage.ActualHeight; } }
 
         public double CanvasLeft
         {
@@ -29,29 +31,20 @@ namespace MangaReader.UserControls
         public ReaderControl()
         {
             readerService = ReaderService.Instance;
-            pagesService = readerService.pageServices;
+            pagesService = readerService.pagesService;
+            scrollerService = readerService.scrollerService;
 
             pagesService.PagesChanged += OnPagesChanged;
 
             InitializeComponent();
             DataContext = this;
-
-            CurrentPageTop = 0;
         }
 
         private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
 
-            CurrentPageTop += e.Delta * Config.Reader.ScrollSpeed;
-
-            NextPageTop = CurrentPageTop + (int)CurrentImage.ActualHeight;
-
-            if (CurrentPageTop*-1 >= (int)CurrentImage.ActualHeight)
-            {
-                CurrentPageTop += (int)CurrentImage.ActualHeight;
-                pagesService.GoToNextPage();
-            }
+            scrollerService.Scroll(e.Delta / CurrentImage.ActualHeight);
 
             OnPropertyChanged(nameof(CurrentPageTop));
             OnPropertyChanged(nameof(NextPageTop));

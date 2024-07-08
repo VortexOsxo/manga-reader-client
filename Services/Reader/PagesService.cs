@@ -6,12 +6,12 @@ namespace MangaReader.Services.ReaderServices
     {
         public string CurrentPage
         {
-            get { return MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex); }
+            get { return mangaPreview != null ? MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex) : ""; }
         }
 
         public string NextPage
         {
-            get { return MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex + 1); }
+            get { return mangaPreview != null ? MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex + 1): ""; }
         }
 
         public int ChapterIndex
@@ -24,9 +24,15 @@ namespace MangaReader.Services.ReaderServices
             get { return pageIndex; }
         }
 
-        public event EventHandler PagesChanged;
+        public event EventHandler? PagesChanged;
+        public event EventHandler? ChapterChanged;
 
-        public PagesService() {}
+        private List<Chapter>? chapters;
+
+        private MangaPreview? mangaPreview;
+
+        private int pageIndex = 0;
+        private int chapterIndex = 0;
 
         public void SetManga(MangaPreview manga)
         {
@@ -35,47 +41,46 @@ namespace MangaReader.Services.ReaderServices
             MangasService.GetChapters(mangaPreview.Id).ContinueWith((precedent) =>
             {
                 chapters = precedent.Result;
-                OnPagesChanged();
+                ChapterChanged?.Invoke(this, EventArgs.Empty);
+                PagesChanged?.Invoke(this, EventArgs.Empty);
             });
         }
 
         public void GoToNextPage()
         {
-            pageIndex += 1;
-            if (pageIndex >= int.Parse(chapters[chapterIndex].Pages))
-            {
-                pageIndex = 0;
-                chapterIndex += 1;
-            }
-            OnPagesChanged();
+            GoToPage(pageIndex + 1);
         }
 
-        public void GoToChapter(int chapterId)
+        public void GoToPreviousPage()
         {
-            chapterIndex = chapterId;
-            pageIndex = 0;
-
-            OnPagesChanged();
+            GoToPage(pageIndex - 1);
         }
 
         public void GoToPage(int pageId)
         {
             pageIndex = pageId;
 
-            OnPagesChanged();
-        }
+            if (pageIndex >= GetPagesCount())
+                GoToChapter(chapterIndex + 1);
+            
+            if (pageIndex < 0)
+                GoToChapter(chapterIndex - 1);
 
-        protected virtual void OnPagesChanged()
-        {
             PagesChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private List<Chapter> chapters;
+        public void GoToChapter(int chapterId)
+        {
+            chapterIndex = chapterId;
+            GoToPage(0);
 
-        private MangaPreview mangaPreview;
+            ChapterChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-        private int pageIndex = 0;
-        private int chapterIndex = 0;
-
+        private int GetPagesCount()
+        {
+            if (chapters == null) return int.MaxValue;
+            return (chapters.Count >= chapterIndex) ? int.MaxValue : int.Parse(chapters[chapterIndex].Pages);
+        }
     }
 }

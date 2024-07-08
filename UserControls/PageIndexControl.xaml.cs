@@ -22,7 +22,7 @@ namespace MangaReader.UserControls
 
         public PageIndexControl()
         {
-            pagesService = ReaderService.Instance.pageServices;
+            pagesService = ReaderService.Instance.pagesService;
             pagesService.PagesChanged += OnPagesChanged;
 
             InitializeComponent();

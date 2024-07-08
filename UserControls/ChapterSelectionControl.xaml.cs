@@ -62,7 +62,7 @@ namespace MangaReader.UserControls
             var reader = ReaderService.Instance;
 
             reader.SetManga(this.manga);
-            reader.pageServices.GoToChapter(chapterId);
+            reader.pagesService.GoToChapter(chapterId);
 
             NavigationService.GetNavigationService(this).Navigate(new ReadPage());
         }
