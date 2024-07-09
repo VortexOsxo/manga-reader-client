@@ -10,31 +10,21 @@ namespace MangaReader.UserControls
 {
     public partial class ReaderControl : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private PagesService pagesService;
-        private ReaderService readerService;
-        private ScrollerService scrollerService;
-
-        public string CurrentPage { get { return pagesService.CurrentPage; } }
-        public string NextPage { get { return pagesService.NextPage; } }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int CurrentPageTop { get { return (int) (scrollerService.scrollPercentage * CurrentImage.ActualHeight); } }
-
         public int NextPageTop { get { return CurrentPageTop + (int) CurrentImage.ActualHeight; } }
+        public double PageLeft {get { return (SystemParameters.PrimaryScreenWidth - ReaderService.Instance.mangaWidth) / 2; } }
 
-        public double CanvasLeft
-        {
-            get { return (SystemParameters.PrimaryScreenWidth - 800) / 2; } // TODO: remove hardcoded value (800 comes from the image size in xaml and 1920 from the user screen width)
-        }
+        public PagesService pagesService { get; private set; }
+        private ReaderService readerService;
+        private ScrollerService scrollerService;
 
         public ReaderControl()
         {
             readerService = ReaderService.Instance;
             pagesService = readerService.pagesService;
             scrollerService = readerService.scrollerService;
-
-            pagesService.PagesChanged += OnPagesChanged;
 
             InitializeComponent();
             DataContext = this;
@@ -46,19 +36,8 @@ namespace MangaReader.UserControls
 
             scrollerService.Scroll(e.Delta / CurrentImage.ActualHeight);
 
-            OnPropertyChanged(nameof(CurrentPageTop));
-            OnPropertyChanged(nameof(NextPageTop));
-        }
-
-        private void OnPagesChanged(object sender, EventArgs e)
-        {
-            OnPropertyChanged(nameof(CurrentPage));
-            OnPropertyChanged(nameof(NextPage));
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPageTop)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NextPageTop)));
         }
     }
 }

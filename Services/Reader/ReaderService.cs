@@ -12,10 +12,14 @@ namespace MangaReader.Services
         public ScrollerService scrollerService;
 
         public static ReaderService Instance { get { return instance; } }
+
+        public int mangaWidth { get; private set; }
+
         private static ReaderService instance = new ReaderService();
     
         private ReaderService()
         {
+            mangaWidth = 800;
             pagesService = new PagesService();
             scrollerService = new ScrollerService(pagesService);
         }

@@ -1,27 +1,42 @@
 ﻿using MangaReader.Model;
+using MangaReader.UserControls;
+using System.ComponentModel;
 
 namespace MangaReader.Services.ReaderServices
 {
-    public class PagesService
+    public class PagesService : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public string CurrentPage
         {
-            get { return mangaPreview != null ? MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex) : ""; }
+            get { return mangaPreview != null ? MangasService.GetPageUrl(mangaPreview.Id, ChapterIndex, PageIndex) : ""; }
         }
 
         public string NextPage
         {
-            get { return mangaPreview != null ? MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex + 1): ""; }
+            get {
+                if (mangaPreview == null) return "";
+                int pageIndex = PageIndex + 1;
+                int chapterIndex = ChapterIndex;
+
+                if (pageIndex >= GetPagesCount())
+                {
+                    pageIndex = 0;
+                    chapterIndex += 1;
+                }
+                return MangasService.GetPageUrl(mangaPreview.Id, chapterIndex, pageIndex);
+            }
         }
 
         public int ChapterIndex
         {
-            get { return chapterIndex; }
+            get; private set;
         }
 
         public int PageIndex
         {
-            get { return pageIndex; }
+            get; private set;
         }
 
         public event EventHandler? PagesChanged;
@@ -30,9 +45,6 @@ namespace MangaReader.Services.ReaderServices
         private List<Chapter>? chapters;
 
         private MangaPreview? mangaPreview;
-
-        private int pageIndex = 0;
-        private int chapterIndex = 0;
 
         public void SetManga(MangaPreview manga)
         {
@@ -48,39 +60,46 @@ namespace MangaReader.Services.ReaderServices
 
         public void GoToNextPage()
         {
-            GoToPage(pageIndex + 1);
+            GoToPage(PageIndex + 1);
         }
 
         public void GoToPreviousPage()
         {
-            GoToPage(pageIndex - 1);
+            GoToPage(PageIndex - 1);
         }
 
         public void GoToPage(int pageId)
         {
-            pageIndex = pageId;
+            PageIndex = pageId;
 
-            if (pageIndex >= GetPagesCount())
-                GoToChapter(chapterIndex + 1);
+            if (PageIndex >= GetPagesCount())
+                GoToChapter(ChapterIndex + 1);
             
-            if (pageIndex < 0)
-                GoToChapter(chapterIndex - 1);
+            if (PageIndex+1 < 0)
+                GoToChapter(ChapterIndex);
 
             PagesChanged?.Invoke(this, EventArgs.Empty);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPage)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NextPage)));
         }
 
         public void GoToChapter(int chapterId)
         {
-            chapterIndex = chapterId;
+            ChapterIndex = chapterId;
             GoToPage(0);
 
             ChapterChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        public bool CanGoDown()
+        {
+            return PageIndex > 0;
+        }
+
         private int GetPagesCount()
         {
             if (chapters == null) return int.MaxValue;
-            return (chapters.Count >= chapterIndex) ? int.MaxValue : int.Parse(chapters[chapterIndex].Pages);
+            return (ChapterIndex >= chapters.Count) ? int.MaxValue : int.Parse(chapters[ChapterIndex].Pages);
         }
     }
 }

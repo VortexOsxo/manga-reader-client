@@ -10,14 +10,14 @@
 
     <Canvas x:Name="Canvas">
         <Image x:Name="Next" Width="800" Stretch="UniformToFill"
-               Source="{Binding NextPage}" 
+               Source="{Binding pagesService.NextPage}" 
                Canvas.Top="{Binding NextPageTop}"
-               Canvas.Left="{Binding CanvasLeft}" />
+               Canvas.Left="{Binding PageLeft}" />
 
         <Image x:Name="CurrentImage" Width="800" Stretch="UniformToFill"
-               Source="{Binding CurrentPage}"
+               Source="{Binding pagesService.CurrentPage}"
                Canvas.Top="{Binding CurrentPageTop}"
-               Canvas.Left="{Binding CanvasLeft}" />
+               Canvas.Left="{Binding PageLeft}" />
     </Canvas>
 
 </UserControl>

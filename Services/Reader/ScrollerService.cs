@@ -4,8 +4,6 @@ namespace MangaReader.Services.Reader
 {
     internal class ScrollerService
     {
-        public event EventHandler scrolled;
-
         public double scrollPercentage = 0;
 
         private PagesService pagesService;
@@ -20,12 +18,15 @@ namespace MangaReader.Services.Reader
         {
             scrollPercentage += scroll;
 
+            if (!pagesService.CanGoDown() && scrollPercentage > 0)
+                scrollPercentage = 0;
+
             if (scrollPercentage <= -1) {
                 scrollPercentage += 1;
                 pagesService.GoToNextPage();
             }
 
-            if (scrollPercentage >= 0)
+            else if (scrollPercentage > 0)
             {
                 scrollPercentage -= 1;
                 pagesService.GoToPreviousPage();
