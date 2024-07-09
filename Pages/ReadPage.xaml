@@ -12,6 +12,7 @@
 
     <Grid>
         <controls:PageIndexControl HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25px" />
+        <controls:AutoReadControl HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="25px" />
         <controls:ReaderControl x:Name="readerControl"/>
     </Grid>
 </Page>

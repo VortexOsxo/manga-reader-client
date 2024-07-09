@@ -26,16 +26,21 @@ namespace MangaReader.UserControls
             pagesService = readerService.pagesService;
             scrollerService = readerService.scrollerService;
 
+            scrollerService.Scrolled += OnScroll;
+
             InitializeComponent();
             DataContext = this;
         }
 
-        private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Control_MouseWheel(object? sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
 
-            scrollerService.Scroll(e.Delta / CurrentImage.ActualHeight);
+            scrollerService.Scroll(e.Delta / (CurrentImage.ActualHeight*2));
+        }
 
+        private void OnScroll(object? sender, EventArgs e)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPageTop)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NextPageTop)));
         }

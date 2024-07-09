@@ -1,10 +1,13 @@
 ﻿using MangaReader.Services.ReaderServices;
+using System.Windows.Threading;
 
 namespace MangaReader.Services.Reader
 {
     internal class ScrollerService
     {
+        public event EventHandler? Scrolled;
         public double scrollPercentage = 0;
+        public int scrollSpeed = 1;
 
         private PagesService pagesService;
 
@@ -16,7 +19,7 @@ namespace MangaReader.Services.Reader
 
         public void Scroll(double scroll)
         {
-            scrollPercentage += scroll;
+            scrollPercentage += scroll * scrollSpeed;
 
             if (!pagesService.CanGoDown() && scrollPercentage > 0)
                 scrollPercentage = 0;
@@ -31,14 +34,17 @@ namespace MangaReader.Services.Reader
                 scrollPercentage -= 1;
                 pagesService.GoToPreviousPage();
             }
+
+            Scrolled?.Invoke(this, EventArgs.Empty);
         }
 
         public void ResetScroll()
         {
             scrollPercentage = 0;
+            scrollSpeed = 1;
         }
 
-        private void OnChapterChanged(object sender, EventArgs e)
+        private void OnChapterChanged(object? sender, EventArgs e)
         {
             ResetScroll();
         }

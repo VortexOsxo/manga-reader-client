@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using MangaReader.Services;
+using System.Windows.Controls;
 
 
 namespace MangaReader.Pages
@@ -8,6 +9,12 @@ namespace MangaReader.Pages
         public ReadPage()
         {
             InitializeComponent();
+            Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object? sender, EventArgs ags)
+        {
+            ReaderService.Instance.Reset();
         }
     }
 }

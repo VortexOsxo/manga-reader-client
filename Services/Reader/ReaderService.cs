@@ -10,6 +10,7 @@ namespace MangaReader.Services
 
         public PagesService pagesService;
         public ScrollerService scrollerService;
+        public AutoScrollerService autoScrollerService;
 
         public static ReaderService Instance { get { return instance; } }
 
@@ -22,12 +23,22 @@ namespace MangaReader.Services
             mangaWidth = 800;
             pagesService = new PagesService();
             scrollerService = new ScrollerService(pagesService);
+            autoScrollerService = new AutoScrollerService(scrollerService);
         }
     
         public void SetManga(MangaPreview manga)
         {
+            Reset();
             this.manga = manga;
+
             pagesService.SetManga(manga);
+        }
+
+        public void Reset()
+        {
+            manga = null;
+
+            autoScrollerService.StopAutoScroll();
             scrollerService.ResetScroll();
         }
     }
