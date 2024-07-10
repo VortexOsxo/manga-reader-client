@@ -38,6 +38,23 @@ namespace MangaReader.UserControls
             }
         }
 
+        private void ContinueReadingTextBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            HistoryService.GetLastReadPage(manga.Id).ContinueWith((antecedant) =>
+            {
+                var bookmark = antecedant.Result!;
+                Dispatcher.Invoke(() => OpenMangaFromBookmark(bookmark));
+            });
+        }
+
+        private void OpenMangaFromBookmark(Bookmark bookmark)
+        {
+            GoToChapter(bookmark.ChapterNumber);
+
+            var reader = ReaderService.Instance;
+            reader.pagesService.GoToPage(bookmark.PageNumber);
+        }
+
         private void ChapterTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBlock clickedTextBlock = sender as TextBlock;

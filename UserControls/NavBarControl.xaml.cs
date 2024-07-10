@@ -22,7 +22,7 @@ namespace MangaReader.UserControls
         private void UserClicked(object sender, MouseButtonEventArgs e)
         {
             var navigationService = NavigationService.GetNavigationService(this);
-            navigationService?.Navigate(null);
+            navigationService?.Navigate(new ProfilePage());
         }
     }
 }

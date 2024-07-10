@@ -1,5 +1,4 @@
 ﻿using MangaReader.Model;
-using MangaReader.UserControls;
 using System.ComponentModel;
 
 namespace MangaReader.Services.ReaderServices
@@ -60,6 +59,7 @@ namespace MangaReader.Services.ReaderServices
 
         public void GoToNextPage()
         {
+            HistoryService.AddToHistory(mangaPreview.Id, ChapterIndex, PageIndex);
             GoToPage(PageIndex + 1);
         }
 

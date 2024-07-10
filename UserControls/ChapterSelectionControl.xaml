@@ -10,6 +10,7 @@
     <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Margin="5" Width="200" Height="320">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel x:Name="ChaptersPanel" Margin="10" ClipToBounds="True">
+                <TextBlock Text="Continue Reading" PreviewMouseDown="ContinueReadingTextBlock_PreviewMouseDown" Margin="5"></TextBlock>
                 <TextBlock Text="First Chapter" PreviewMouseDown="FirstChapterTextBlock_PreviewMouseDown" Margin="5"></TextBlock>
                 <TextBlock Text="Last Chapter" PreviewMouseDown="LastChapterTextBlock_PreviewMouseDown" Margin="5"></TextBlock>
             </StackPanel>

@@ -15,16 +15,10 @@ namespace MangaReader.Services
             {
                 HttpResponseMessage response = await client.GetAsync($"{Server.url}/mangas");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
-                    List<MangaPreview> previews = JsonConvert.DeserializeObject<List<MangaPreview>>(jsonResponse)!;
-                    return previews;
-                }
-                else
-                {
-                    throw new HttpRequestException($"Error fetching data: {response.StatusCode}");
-                }
+                if (!response.IsSuccessStatusCode) return [];
+                
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<MangaPreview>>(jsonResponse)!;
             }
         }
 
