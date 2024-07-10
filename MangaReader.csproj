@@ -9,12 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\book.png" />
+    <None Remove="Assets\home.png" />
+    <None Remove="Assets\user.png" />
     <None Remove="Pages\MangaInfoPage.xaml.cs~RF145591f.TMP" />
     <None Remove="_073a594ffec2be8897f_01F98AP5GF54CYR0GVQB85ADYJ.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\book.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\home.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

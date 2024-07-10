@@ -10,8 +10,14 @@
       xmlns:controls="clr-namespace:MangaReader.UserControls"
       Background="{StaticResource AppBackgroundColor}">
 
-    <StackPanel Orientation="Horizontal">
-        <Grid x:Name="PreviewGrid"></Grid>
-        <Grid x:Name="ChaptersGrid"></Grid>
-    </StackPanel>
+    <Grid>
+        <controls:NavBarControl HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="25px" />
+        
+        <StackPanel Orientation="Horizontal">
+
+            <Grid x:Name="PreviewGrid"></Grid>
+            <Grid x:Name="ChaptersGrid"></Grid>
+        </StackPanel>
+    </Grid>
+
 </Page>
