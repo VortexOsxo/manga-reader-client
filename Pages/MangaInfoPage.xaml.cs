@@ -7,9 +7,9 @@ namespace MangaReader.Pages
     public partial class MangaInfoPage : Page
     {
         
-        private MangaPreview manga;
+        private Manga manga;
 
-        public MangaInfoPage(MangaPreview manga)
+        public MangaInfoPage(Manga manga)
         {
             InitializeComponent();
             DataContext = this;

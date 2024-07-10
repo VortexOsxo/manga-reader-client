@@ -10,9 +10,9 @@ namespace MangaReader.UserControls
 {
     public partial class ChapterSelectionControl : UserControl
     {
-        private MangaPreview manga;
+        private Manga manga;
 
-        public ChapterSelectionControl(MangaPreview manga)
+        public ChapterSelectionControl(Manga manga)
         {
             InitializeComponent();
             this.manga = manga;

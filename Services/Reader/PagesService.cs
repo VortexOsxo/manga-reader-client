@@ -43,9 +43,9 @@ namespace MangaReader.Services.ReaderServices
 
         private List<Chapter>? chapters;
 
-        private MangaPreview? mangaPreview;
+        private Manga? mangaPreview;
 
-        public void SetManga(MangaPreview manga)
+        public void SetManga(Manga manga)
         {
             mangaPreview = manga;
 

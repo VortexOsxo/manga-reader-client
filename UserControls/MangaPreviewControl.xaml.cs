@@ -8,7 +8,7 @@ namespace MangaReader.UserControls
 {
     public partial class MangaPreviewControl : UserControl
     {
-        public MangaPreviewControl(MangaPreview manga)
+        public MangaPreviewControl(Manga manga)
         {
             this.DataContext = manga;
             InitializeComponent();
@@ -16,7 +16,7 @@ namespace MangaReader.UserControls
 
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (DataContext is not MangaPreview mangaPreview) return;
+            if (DataContext is not Manga mangaPreview) return;
 
             NavigationService.GetNavigationService(this).Navigate(new MangaInfoPage(mangaPreview));
         }

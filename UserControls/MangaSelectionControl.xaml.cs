@@ -5,7 +5,7 @@ namespace MangaReader.UserControls
 {
     public partial class MangaSelectionControl : UserControl
     {
-        public MangaSelectionControl(Task<List<MangaPreview>> mangas)
+        public MangaSelectionControl(Task<List<Manga>> mangas)
         {
             InitializeComponent();
             DataContext = this;
@@ -15,7 +15,7 @@ namespace MangaReader.UserControls
             });
         }
 
-        private void LoadPreviews(List<MangaPreview> previews)
+        private void LoadPreviews(List<Manga> previews)
         {
             foreach (var preview in previews)
             {

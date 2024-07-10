@@ -1,6 +1,6 @@
 ﻿namespace MangaReader.Model
 {
-    public class MangaPreview
+    public class Manga
     {
         public string Id { get; set; }
         public string Title { get; set; }

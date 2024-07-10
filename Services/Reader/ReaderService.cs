@@ -6,7 +6,7 @@ namespace MangaReader.Services
 {
     internal class ReaderService
     {
-        public MangaPreview? manga;
+        public Manga? manga;
 
         public PagesService pagesService;
         public ScrollerService scrollerService;
@@ -26,7 +26,7 @@ namespace MangaReader.Services
             autoScrollerService = new AutoScrollerService(scrollerService);
         }
     
-        public void SetManga(MangaPreview manga)
+        public void SetManga(Manga manga)
         {
             Reset();
             this.manga = manga;

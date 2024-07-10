@@ -9,7 +9,7 @@ namespace MangaReader.Pages
 {
     public partial class AuthenticationPage : Page, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string FormTitle { get { return state.StateTitle; } }
         public string NextStateTitle { get { return state.NextStateTitle; } }
@@ -22,6 +22,8 @@ namespace MangaReader.Pages
         {
             state = new LoginState();
             state.AuthenticationPage = this;
+
+            ErrorMessage = string.Empty;
 
             InitializeComponent();
             DataContext = this;
@@ -93,7 +95,11 @@ namespace MangaReader.Pages
             public string StateTitle { get { return "Log In"; } }
             public string NextStateTitle { get { return "Sign up"; } }
 
-            public void OnSubmit(string username, string password) { LoginService.Login(username, password, AuthenticationPage.LoginCallback); }
+            public void OnSubmit(string username, string password) {
+                LoginService.Login(username, password).ContinueWith(
+                    (antecedant) => AuthenticationPage.Dispatcher.Invoke(() => AuthenticationPage.LoginCallback(antecedant.Result))
+                );
+            }
 
             public AuthenticationState GetNextState() { return new SignupState(); }
         }
@@ -104,7 +110,11 @@ namespace MangaReader.Pages
             public string StateTitle { get { return "Sign Up"; } }
             public string NextStateTitle { get { return "Log in"; } }
 
-            public void OnSubmit(string username, string password) { SignupService.Signup(username, password, AuthenticationPage.SignupCallback); }
+            public void OnSubmit(string username, string password) { 
+                SignupService.Signup(username, password).ContinueWith(
+                    (antecedant) => AuthenticationPage.Dispatcher.Invoke(() => AuthenticationPage.SignupCallback(antecedant.Result))
+                );
+            }
 
             public AuthenticationState GetNextState() { return new LoginState(); }
         }
