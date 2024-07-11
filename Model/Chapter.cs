@@ -2,8 +2,8 @@
 {
     public class Chapter
     {
-        public string Id { get; set; }
-        public string Pages { get; set; }
+        public int Id { get; set; }
+        public int Pages { get; set; }
 
     }
 }

@@ -99,7 +99,7 @@ namespace MangaReader.Services.ReaderServices
         private int GetPagesCount()
         {
             if (chapters == null) return int.MaxValue;
-            return (ChapterIndex >= chapters.Count) ? int.MaxValue : int.Parse(chapters[ChapterIndex].Pages);
+            return (ChapterIndex >= chapters.Count) ? int.MaxValue : chapters[ChapterIndex].Pages;
         }
     }
 }
