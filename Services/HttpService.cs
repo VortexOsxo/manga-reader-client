@@ -27,7 +27,7 @@ namespace MangaReader.Services
             return JsonConvert.DeserializeObject<T>(jsonResponse)!;
         }
 
-        static public async Task<HttpStatusCode> Post(string endpoint, object? body, Action<dynamic>? callback = null)
+        static public async Task<HttpStatusCode> Post(string endpoint, object? body = null, Action<dynamic>? callback = null)
         {
             using HttpClient client = GetClientWithSessionId();
 
@@ -39,6 +39,14 @@ namespace MangaReader.Services
                 dynamic responseData = JsonConvert.DeserializeObject(responseBody) ?? new { };
                 callback.Invoke(responseData);
             }
+            return response.StatusCode;
+        }
+
+        static public async Task<HttpStatusCode> Delete(string endpoint)
+        {
+            using HttpClient client = GetClientWithSessionId();
+
+            HttpResponseMessage response = await client.DeleteAsync($"{Server.url}/{endpoint}");
             return response.StatusCode;
         }
 

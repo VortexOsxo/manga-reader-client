@@ -20,7 +20,7 @@ namespace MangaReader.Pages
 
         private void CreateControls()
         {
-            var preview = new MangaPreviewControl(manga);
+            var preview = new FavoriteMangaPreviewControl(manga);
             PreviewGrid.Children.Add(preview);
 
             var chapters = new ChapterSelectionControl(manga);

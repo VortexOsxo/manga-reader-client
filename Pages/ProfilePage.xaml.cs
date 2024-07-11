@@ -10,7 +10,8 @@ namespace MangaReader.Pages
         {
             InitializeComponent();
 
-            MangaSelectionGrid.Children.Add(new MangaSelectionControl(HistoryService.GetHistory()));
+            HistorySelectionGrid.Children.Add(new MangaSelectionControl(HistoryService.GetHistory()));
+            FavoriteSelectionGrid.Children.Add(new MangaSelectionControl(FavoritesService.GetFavorites()));
         }
     }
 }

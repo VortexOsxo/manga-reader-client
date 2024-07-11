@@ -28,6 +28,9 @@
     <Compile Update="UserControls\ChapterSelectionControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\FavoriteMangaPreviewControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\MangaPreviewControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -67,6 +70,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\ChapterSelectionControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\FavoriteMangaPreviewControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UserControls\MangaPreviewControl.xaml">
