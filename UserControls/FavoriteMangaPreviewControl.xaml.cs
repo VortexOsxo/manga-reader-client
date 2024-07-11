@@ -12,7 +12,7 @@ namespace MangaReader.UserControls
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public string ImagePath { get { return GetImagePath(); } }
-        private Manga manga;
+        private readonly Manga manga;
 
         private bool isFavorite = false;
 

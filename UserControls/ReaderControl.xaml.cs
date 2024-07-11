@@ -14,16 +14,16 @@ namespace MangaReader.UserControls
 
         public int CurrentPageTop { get { return (int) (scrollerService.scrollPercentage * CurrentImage.ActualHeight); } }
         public int NextPageTop { get { return CurrentPageTop + (int) CurrentImage.ActualHeight; } }
-        public double PageLeft {get { return (SystemParameters.PrimaryScreenWidth - ReaderService.Instance.MangaWidth) / 2; } }
+        public double PageLeft { get { return (SystemParameters.PrimaryScreenWidth - ReaderService.Instance.MangaWidth) / 2; } }
 
-        public PagesService pagesService { get; private set; }
-        private ReaderService readerService;
-        private ScrollerService scrollerService;
+        public PagesService PagesService { get; private set; }
+        private readonly ReaderService readerService;
+        private readonly ScrollerService scrollerService;
 
         public ReaderControl()
         {
             readerService = ReaderService.Instance;
-            pagesService = readerService.pagesService;
+            PagesService = readerService.pagesService;
             scrollerService = readerService.scrollerService;
 
             scrollerService.Scrolled += OnScroll;
@@ -35,7 +35,6 @@ namespace MangaReader.UserControls
         private void Control_MouseWheel(object? sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
-
             scrollerService.Scroll(e.Delta / (CurrentImage.ActualHeight*2));
         }
 

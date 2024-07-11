@@ -10,7 +10,7 @@ namespace MangaReader.UserControls
 {
     public partial class ChapterSelectionControl : UserControl
     {
-        private Manga manga;
+        private readonly Manga manga;
 
         public ChapterSelectionControl(Manga manga)
         {
@@ -22,20 +22,23 @@ namespace MangaReader.UserControls
 
         private void CreateChapters()
         {
-            for (int i = 1; i <= manga.AvailableChapters; i++)
+            for (int i = 1; i < manga.AvailableChapters; i++)
             {
-                TextBlock chapterTextBlock = new TextBlock
-                {
-                    Text = $"Chapter {i}",
-                    Margin = new Thickness(5),
-                    Tag = i-1,
-                };
-
-                chapterTextBlock.MouseLeftButtonDown += ChapterTextBlock_MouseLeftButtonDown;
-                ChaptersPanel.Children.Add(chapterTextBlock);
-
-                if (i == manga.AvailableChapters) continue;
+                ChaptersPanel.Children.Add(CreateChapter(i));
             }
+        }
+
+        private TextBlock CreateChapter(int index)
+        {
+            TextBlock chapterTextBlock = new()
+            {
+                Text = $"Chapter {index}",
+                Margin = new Thickness(5),
+                Tag = index - 1,
+            };
+
+            chapterTextBlock.MouseLeftButtonDown += ChapterTextBlock_MouseLeftButtonDown;
+            return chapterTextBlock;
         }
 
         private void ContinueReadingTextBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -57,8 +60,7 @@ namespace MangaReader.UserControls
 
         private void ChapterTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock clickedTextBlock = sender as TextBlock;
-            if (clickedTextBlock == null) return;
+            if (sender is not TextBlock clickedTextBlock) return;
 
             int chapterNumber = (int)clickedTextBlock.Tag;
             GoToChapter(chapterNumber);

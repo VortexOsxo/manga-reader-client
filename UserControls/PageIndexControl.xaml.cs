@@ -7,7 +7,7 @@ namespace MangaReader.UserControls
 {
     public partial class PageIndexControl : UserControl, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string ChapterText { 
             get { return $"{pagesService.ChapterIndex+1}"; }
@@ -18,7 +18,7 @@ namespace MangaReader.UserControls
             set { pagesService.GoToPage(int.Parse(value)-1); }
         }
 
-        private PagesService pagesService;
+        private readonly PagesService pagesService;
 
         public PageIndexControl()
         {
@@ -29,7 +29,7 @@ namespace MangaReader.UserControls
             DataContext = this;
         }
 
-        private void OnPagesChanged(object sender, EventArgs e)
+        private void OnPagesChanged(object? sender, EventArgs e)
         {
             OnPropertyChanged(nameof(ChapterText));
             OnPropertyChanged(nameof(PageText));

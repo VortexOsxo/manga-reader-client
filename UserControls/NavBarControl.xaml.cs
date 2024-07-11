@@ -9,7 +9,6 @@ namespace MangaReader.UserControls
     {
         public NavBarControl()
         {
-
             InitializeComponent();
         }
 
