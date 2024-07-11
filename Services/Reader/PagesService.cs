@@ -5,7 +5,7 @@ namespace MangaReader.Services.ReaderServices
 {
     public class PagesService : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string CurrentPage
         {
@@ -59,6 +59,8 @@ namespace MangaReader.Services.ReaderServices
 
         public void GoToNextPage()
         {
+            if (mangaPreview == null) return;
+
             HistoryService.AddToHistory(mangaPreview.Id, ChapterIndex, PageIndex);
             GoToPage(PageIndex + 1);
         }

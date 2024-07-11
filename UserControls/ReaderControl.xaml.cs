@@ -14,7 +14,7 @@ namespace MangaReader.UserControls
 
         public int CurrentPageTop { get { return (int) (scrollerService.scrollPercentage * CurrentImage.ActualHeight); } }
         public int NextPageTop { get { return CurrentPageTop + (int) CurrentImage.ActualHeight; } }
-        public double PageLeft {get { return (SystemParameters.PrimaryScreenWidth - ReaderService.Instance.mangaWidth) / 2; } }
+        public double PageLeft {get { return (SystemParameters.PrimaryScreenWidth - ReaderService.Instance.MangaWidth) / 2; } }
 
         public PagesService pagesService { get; private set; }
         private ReaderService readerService;

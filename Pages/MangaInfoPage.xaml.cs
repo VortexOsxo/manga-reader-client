@@ -6,7 +6,6 @@ namespace MangaReader.Pages
 {
     public partial class MangaInfoPage : Page
     {
-        
         private Manga manga;
 
         public MangaInfoPage(Manga manga)

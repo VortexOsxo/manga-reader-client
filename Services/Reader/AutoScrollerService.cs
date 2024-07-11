@@ -1,19 +1,22 @@
 ﻿using System.Windows.Threading;
+using MangaReader.Config;
 
 namespace MangaReader.Services.Reader
 {
     internal class AutoScrollerService
     {
-        private ScrollerService scrollerService;
+        private readonly ScrollerService scrollerService;
 
-        private DispatcherTimer autoScrollTimer;
+        private readonly DispatcherTimer autoScrollTimer;
 
         public AutoScrollerService(ScrollerService scrollerService)
         {
             this.scrollerService = scrollerService;
 
-            autoScrollTimer = new DispatcherTimer();
-            autoScrollTimer.Interval = TimeSpan.FromSeconds(0.005);
+            autoScrollTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(Scroll.AutoScrollPeriod)
+            };
             autoScrollTimer.Tick += AutoScroll;
         }
 
@@ -29,7 +32,7 @@ namespace MangaReader.Services.Reader
 
         private void AutoScroll(object? sender, EventArgs e)
         {
-            scrollerService.Scroll(-0.0005);
+            scrollerService.Scroll(Scroll.AutoScrollValue);
         }
     }
 }

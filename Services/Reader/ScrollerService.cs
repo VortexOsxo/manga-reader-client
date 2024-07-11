@@ -1,5 +1,4 @@
 ﻿using MangaReader.Services.ReaderServices;
-using System.Windows.Threading;
 
 namespace MangaReader.Services.Reader
 {

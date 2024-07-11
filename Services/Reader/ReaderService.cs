@@ -1,4 +1,5 @@
 ﻿using MangaReader.Model;
+using MangaReader.Config;
 using MangaReader.Services.Reader;
 using MangaReader.Services.ReaderServices;
 
@@ -8,19 +9,19 @@ namespace MangaReader.Services
     {
         public Manga? manga;
 
-        public PagesService pagesService;
-        public ScrollerService scrollerService;
-        public AutoScrollerService autoScrollerService;
+        public readonly PagesService pagesService;
+        public readonly ScrollerService scrollerService;
+        public readonly AutoScrollerService autoScrollerService;
 
         public static ReaderService Instance { get { return instance; } }
 
-        public int mangaWidth { get; private set; }
+        public int MangaWidth { get; private set; }
 
-        private static ReaderService instance = new ReaderService();
+        private static readonly ReaderService instance = new ReaderService();
     
         private ReaderService()
         {
-            mangaWidth = 800;
+            MangaWidth = Reading.PageWidth;
             pagesService = new PagesService();
             scrollerService = new ScrollerService(pagesService);
             autoScrollerService = new AutoScrollerService(scrollerService);
